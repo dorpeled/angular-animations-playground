@@ -1,12 +1,7 @@
 import { transition, trigger, useAnimation } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  fadeIn,
-  fadeOut,
-  slideInLeft,
-  slideInRight,
-} from '../../animations/reusable-animations';
+import { fadeIn, fadeOut } from '../../animations/reusable-animations';
 
 @Component({
   selector: 'app-reusable-box',
@@ -37,30 +32,6 @@ import {
           },
         })
       ),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    trigger('slideAnimation', [
-      transition(':enter', useAnimation(slideInLeft)),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    trigger('slideRightAnimation', [
-      transition(':enter', useAnimation(slideInRight)),
       transition(
         ':leave',
         useAnimation(fadeOut, {
