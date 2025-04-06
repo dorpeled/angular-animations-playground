@@ -2,7 +2,6 @@ import { transition, trigger, useAnimation } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  bounceIn,
   fadeIn,
   fadeOut,
   slideInLeft,
@@ -18,15 +17,6 @@ import {
   // DEMO: Using reusable animations with parameters
   animations: [
     trigger('boxAnimation', [
-      transition(
-        ':enter',
-        useAnimation(bounceIn, {
-          params: {
-            duration: '800ms',
-            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-          },
-        })
-      ),
       transition(
         ':leave',
         useAnimation(fadeOut, {

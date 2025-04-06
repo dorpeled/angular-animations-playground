@@ -16,7 +16,7 @@ import { NavComponent } from './shared/nav/nav.component';
   imports: [RouterOutlet, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  // DEMO: Route animations between views
+  // Simple route animation
   animations: [
     trigger('routeAnimations', [
       transition('* <=> *', [
@@ -57,6 +57,8 @@ export class AppComponent {
 
   // Method to prepare route for animation
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData;
+    return outlet && outlet.activatedRouteData
+      ? outlet.activatedRouteData['animation']
+      : '';
   }
 }

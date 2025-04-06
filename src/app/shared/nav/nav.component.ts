@@ -14,7 +14,5 @@ export class NavComponent {
     { path: 'fade-card', label: 'Fade Card' },
     { path: 'toggle-panel', label: 'Toggle Panel' },
     { path: 'reusable-box', label: 'Reusable Box' },
-    { path: 'route-views/view-a', label: 'Route View A' },
-    { path: 'route-views/view-b', label: 'Route View B' },
   ];
 }
