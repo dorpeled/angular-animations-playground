@@ -11,13 +11,14 @@
     <button (click)="sortBoxes()">{{ getSortButtonText() }}</button>
   </div>
 
-  <div class="boxes-container" [@listAnimation]="boxes.length">
+  <!-- [@listAnimation]="boxes.length" -->
+  <div class="boxes-container">
+    <!-- [@boxAnimations]="getAnimationState(box)" -->
     <div
       *ngFor="let box of boxes; trackBy: trackById; let i = index"
       class="box"
       [attr.data-entering]="box.entering"
       [style.background-color]="box.color"
-      [@boxAnimations]="getAnimationState(box)"
       #boxElement
     >
       <h3>{{ box.title }}</h3>

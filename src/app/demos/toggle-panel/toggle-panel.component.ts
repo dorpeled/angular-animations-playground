@@ -1,12 +1,18 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+
+/**
+ * ANIMATION CHALLENGE: TOGGLE PANEL
+ *
+ * This component demonstrates:
+ * 1. State-based animations with Angular
+ * 2. Transitions between states
+ * 3. Animating multiple properties at once
+ *
+ * Your challenge:
+ * - Implement the expandCollapse animation trigger
+ * - Add a staggered animation for multiple panels
+ */
 
 @Component({
   selector: 'app-toggle-panel',
@@ -16,31 +22,20 @@ import { Component } from '@angular/core';
   styleUrl: './toggle-panel.component.scss',
   // DEMO: Animation with state changes - expandCollapse
   animations: [
+    // CHALLENGE: Implement state-based animations
+    // TODO: Create expandCollapse trigger with two states:
+    // 1. 'collapsed' state: height: 0, opacity: 0, padding: 0, transform: translateX(15px)
+    // 2. 'expanded' state: height: *, opacity: 1, padding: *, transform: translateX(0)
+    // 3. Add a transition between states using cubic-bezier easing
+    /* Example:
     trigger('expandCollapse', [
-      state(
-        'collapsed',
-        style({
-          height: '0',
-          overflow: 'hidden',
-          opacity: '0',
-          padding: '0',
-          transform: 'translateX(15px)',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-          overflow: 'hidden',
-          opacity: '1',
-          padding: '*',
-          transform: 'translateX(0)',
-        })
-      ),
+      state('collapsed', style({ ... })),
+      state('expanded', style({ ... })),
       transition('collapsed <=> expanded', [
-        animate('400ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
-      ]),
-    ]),
+        animate('400ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ])
+    ])
+    */
   ],
 })
 export class TogglePanelComponent {
@@ -68,7 +63,14 @@ export class TogglePanelComponent {
     },
   ];
 
-  // CHALLENGE: Try adding a staggered animation when multiple panels are opened simultaneously
+  /**
+   * BONUS CHALLENGE: Add a staggered animation when multiple panels are toggled
+   *
+   * HINTS:
+   * 1. Use query() and stagger() to select all elements with a specific state
+   * 2. Apply the animations with a delay between each element
+   * 3. Consider adding a new trigger for this purpose
+   */
 
   togglePanel(panel: any): void {
     panel.state = panel.state === 'collapsed' ? 'expanded' : 'collapsed';

@@ -18,30 +18,26 @@
           {{ panel.state === "collapsed" ? "+" : "−" }}
         </span>
       </div>
-      <div class="panel-content" [@expandCollapse]="panel.state">
+      <!-- 
+        CHALLENGE: Add the expandCollapse animation to the panel content
+        HINT: Use [@expandCollapse]="panel.state" to bind the animation to the panel's state
+      -->
+      <div class="panel-content">
         <p>{{ panel.content }}</p>
       </div>
     </div>
   </div>
 
   <div class="code-explanation">
-    <h3>How it works:</h3>
-    <p>The expandCollapse animation uses state transitions to:</p>
+    <h3>Animation Challenge:</h3>
+    <p>Complete the following tasks to implement the panel animations:</p>
     <ul>
+      <li>Define an expandCollapse trigger in the component</li>
+      <li>Create 'collapsed' and 'expanded' states with appropriate styles</li>
+      <li>Implement smooth transitions between the states</li>
+      <li>Apply the animation to the panel-content div element</li>
       <li>
-        Define visual properties for both 'collapsed' and 'expanded' states
-      </li>
-      <li>Animate height, opacity, and padding simultaneously</li>
-      <li>
-        Use bidirectional transitions between states with ease-in-out timing
-      </li>
-      <li>
-        Apply a transform counter-balance (translateX) that offsets the padding
-        expansion, keeping text visually centered during the animation
-      </li>
-      <li>
-        Create a more refined effect where the container expands around the
-        content rather than pushing the content
+        Bonus: Add staggered animations when expanding or collapsing all panels
       </li>
     </ul>
   </div>

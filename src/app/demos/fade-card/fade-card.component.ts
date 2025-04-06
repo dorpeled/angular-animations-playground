@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   afterNextRender,
@@ -7,6 +6,19 @@ import {
   Component,
   inject,
 } from '@angular/core';
+
+/**
+ * ANIMATION CHALLENGE: FADE CARD
+ *
+ * This component demonstrates:
+ * 1. Enter/leave animations using :enter and :leave transitions
+ * 2. Handling initial rendering without unwanted animations
+ * 3. Adding and removing items from a list with smooth transitions
+ *
+ * Your challenge:
+ * - Implement the fadeAnimation trigger for smooth enter/leave animations
+ * - Understand how to disable animations on initial render
+ */
 
 // Card data interface
 interface Card {
@@ -22,44 +34,25 @@ interface Card {
   templateUrl: './fade-card.component.html',
   styleUrl: './fade-card.component.scss',
   animations: [
+    // CHALLENGE: Implement fadeAnimation trigger
+    // TODO: Create a trigger called 'fadeAnimation' with two transitions:
+    // 1. :enter - fade in and expand from height 0
+    // 2. :leave - fade out and collapse to height 0
+    /* Example structure:
     trigger('fadeAnimation', [
-      // Enter transition - fades in and expands
+      // Enter transition
       transition(':enter', [
-        style({
-          opacity: 0,
-          height: 0,
-          overflow: 'hidden',
-          margin: 0,
-          padding: 0,
-        }),
-        animate(
-          '500ms ease-in',
-          style({
-            opacity: 1,
-            height: '*', // Auto height
-            margin: '*',
-            padding: '*',
-          })
-        ),
+        style({ ... }), // Initial style
+        animate('500ms ease-in', style({ ... })) // Final style
       ]),
-      // Exit transition - fades out and collapses
+      
+      // Exit transition
       transition(':leave', [
-        style({
-          opacity: 1,
-          height: '*',
-          overflow: 'hidden',
-        }),
-        animate(
-          '500ms ease-out',
-          style({
-            opacity: 0,
-            height: 0,
-            margin: 0,
-            padding: 0,
-          })
-        ),
-      ]),
-    ]),
+        style({ ... }), // Initial style
+        animate('500ms ease-out', style({ ... })) // Final style
+      ])
+    ])
+    */
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -85,7 +78,8 @@ export class FadeCardComponent {
   ];
 
   constructor() {
-    // Enable animations after initial render to prevent animation on load
+    // IMPORTANT: This prevents animations from running on initial page load
+    // By enabling animations only after the first render cycle
     afterNextRender(() => {
       this.disableAnimations = false;
       this.cdr.markForCheck();
