@@ -1,37 +1,27 @@
-<div class="reusable-box-demo">
-  <h2>Reusable Animations Demo</h2>
-  <p class="description">
-    This demo shows how to create and use reusable animations across different
-    components. Each box demonstrates a different fade animation with varying
-    timing parameters.
+<div class="demo-container">
+  <h2>Reusable Box Animation Demo</h2>
+  <p>
+    The boxes below demonstrate reusable animation components with different
+    timing and easing. This shows how animations can be customized using
+    parameters.
   </p>
 
   <div class="controls">
-    <button (click)="restoreAllBoxes()" *ngIf="boxes.length < 4">
-      Restore All Boxes
-    </button>
-    <button (click)="sortBoxes()" class="sort-button">
-      {{ getSortButtonText() }}
-    </button>
+    <button (click)="restoreAllBoxes()">Restore All Boxes</button>
+    <button (click)="sortBoxes()">{{ getSortButtonText() }}</button>
   </div>
 
   <div class="boxes-container" [@listAnimation]="boxes.length">
     <div
+      *ngFor="let box of boxes; trackBy: trackById; let i = index"
       class="box"
-      *ngFor="let box of boxes; trackBy: trackById"
       [style.background-color]="box.color"
-      [@boxAnimation]="box.animation === 'boxAnimation'"
-      [@customTiming]="box.animation === 'customTiming'"
-      [@fadeAnimation3]="box.animation === 'fadeAnimation3'"
-      [@fadeAnimation4]="box.animation === 'fadeAnimation4'"
+      [@boxAnimations]="getAnimationState(box)"
+      #boxElement
     >
-      <div class="box-header">
-        <h3>{{ box.title }}</h3>
-        <button class="remove-btn" (click)="removeBox(box.id)">×</button>
-      </div>
-      <div class="box-content">
-        <p>{{ box.description }}</p>
-      </div>
+      <h3>{{ box.title }}</h3>
+      <p>{{ box.description }}</p>
+      <button class="remove-button" (click)="removeBox(box.id)">Remove</button>
     </div>
   </div>
 
@@ -39,15 +29,14 @@
     <h3>How it works:</h3>
     <p>This demo shows how to create and use reusable animations:</p>
     <ul>
+      <li>A single animation trigger supports multiple animation states</li>
+      <li>Each box demonstrates a different animation timing</li>
       <li>
-        Each box has its own fade animation with different timing parameters
+        When removing items, they collapse with height and margin animations
       </li>
-      <li>The container uses a stagger animation when new items are added</li>
-      <li>
-        Sorting creates a new array, which triggers the container animation
-      </li>
-      <li>The trackBy function ensures elements are properly identified</li>
-      <li>Angular animations handle all transitions without CSS</li>
+      <li>Sorting uses position tracking to animate items to new positions</li>
+      <li>The container uses a stagger animation for new items</li>
+      <li>Reusable animations are imported from a shared file</li>
     </ul>
     <p>
       Try sorting the boxes in different orders or removing/restoring them to

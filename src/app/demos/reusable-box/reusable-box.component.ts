@@ -1,15 +1,12 @@
-import {
-  animate,
-  query,
-  stagger,
-  style,
-  transition,
-  trigger,
-  useAnimation,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { fadeIn, fadeOut } from '../../animations/reusable-animations';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
+import { appAnimations } from '../../animations/reusable-animations';
 
 // Box interface for proper typing
 interface AnimationBox {
@@ -18,6 +15,7 @@ interface AnimationBox {
   title: string;
   description: string;
   animation: string;
+  removing?: boolean;
 }
 
 @Component({
@@ -26,128 +24,44 @@ interface AnimationBox {
   imports: [CommonModule],
   templateUrl: './reusable-box.component.html',
   styleUrl: './reusable-box.component.scss',
-  // DEMO: Using reusable animations with parameters
-  animations: [
-    // Animation for individual boxes
-    trigger('boxAnimation', [
-      transition(':enter', useAnimation(fadeIn)),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    trigger('customTiming', [
-      transition(
-        ':enter',
-        useAnimation(fadeIn, {
-          params: {
-            duration: '2000ms',
-            easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
-          },
-        })
-      ),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    // Fade animations with different timings for the remaining boxes
-    trigger('fadeAnimation3', [
-      transition(
-        ':enter',
-        useAnimation(fadeIn, {
-          params: {
-            duration: '500ms',
-            easing: 'ease-in',
-          },
-        })
-      ),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    trigger('fadeAnimation4', [
-      transition(
-        ':enter',
-        useAnimation(fadeIn, {
-          params: {
-            duration: '800ms',
-            easing: 'ease-out',
-          },
-        })
-      ),
-      transition(
-        ':leave',
-        useAnimation(fadeOut, {
-          params: {
-            duration: '300ms',
-          },
-        })
-      ),
-    ]),
-
-    // Simple animation for entire container when items change
-    trigger('listAnimation', [
-      transition('* => *', [
-        // Fade in new elements with stagger
-        query(
-          ':enter',
-          [
-            style({ opacity: 0 }),
-            stagger(100, [animate('400ms ease', style({ opacity: 1 }))]),
-          ],
-          { optional: true }
-        ),
-      ]),
-    ]),
-  ],
+  // Use predefined animations from the shared file
+  animations: [appAnimations.boxAnimations, appAnimations.listAnimation],
 })
-export class ReusableBoxComponent {
+export class ReusableBoxComponent implements AfterViewInit {
+  @ViewChildren('boxElement') boxElements!: QueryList<ElementRef>;
+
+  // Store positions for animation
+  boxPositions = new Map<number, DOMRect>();
+
   // Initial box data
   private initialBoxes: AnimationBox[] = [
     {
       id: 1,
       color: '#4CAF50',
       title: 'Standard Fade In',
-      description: 'Using the fadeIn animation with default duration',
-      animation: 'boxAnimation',
+      description: 'Using the default animation with standard timing',
+      animation: 'default',
     },
     {
       id: 2,
       color: '#9C27B0',
       title: 'Slow Fade In',
-      description: 'Using the fadeIn animation with extended duration',
-      animation: 'customTiming',
+      description: 'Using a slow fade with custom cubic-bezier easing',
+      animation: 'slow',
     },
     {
       id: 3,
       color: '#FF9800',
       title: 'Medium Fade In',
-      description: 'Using the fadeIn animation with medium duration',
-      animation: 'fadeAnimation3',
+      description: 'Using a medium-speed fade with ease-in timing',
+      animation: 'medium',
     },
     {
       id: 4,
       color: '#2196F3',
       title: 'Smooth Fade In',
-      description: 'Using the fadeIn animation with smooth ease-out timing',
-      animation: 'fadeAnimation4',
+      description: 'Using a smooth fade with ease-out timing function',
+      animation: 'smooth',
     },
   ];
 
@@ -157,6 +71,31 @@ export class ReusableBoxComponent {
   // Current sort order (default: no sorting)
   currentSortOrder: 'default' | 'ascending' | 'descending' = 'default';
 
+  // Animation trigger
+  animationState = 0;
+
+  ngAfterViewInit() {
+    this.saveElementPositions();
+
+    // Watch for changes to the list of elements
+    this.boxElements.changes.subscribe(() => {
+      setTimeout(() => this.saveElementPositions(), 0);
+    });
+  }
+
+  /**
+   * Save current positions of all box elements
+   */
+  saveElementPositions() {
+    this.boxElements.forEach((element, index) => {
+      const box = this.boxes[index];
+      this.boxPositions.set(
+        box.id,
+        element.nativeElement.getBoundingClientRect()
+      );
+    });
+  }
+
   /**
    * Track boxes by their ID for better animation performance
    */
@@ -165,24 +104,45 @@ export class ReusableBoxComponent {
   }
 
   /**
+   * Get animation state for a specific box
+   */
+  getAnimationState(box: AnimationBox): string {
+    return box.removing ? 'leave' : box.animation;
+  }
+
+  /**
    * Remove a box by ID
    */
   removeBox(id: number): void {
-    this.boxes = this.boxes.filter((box) => box.id !== id);
+    // Mark the box as removing to trigger animation
+    this.boxes = this.boxes.map((box) =>
+      box.id === id ? { ...box, removing: true } : box
+    );
+
+    // Actual removal happens after animation completes
+    setTimeout(() => {
+      this.boxes = this.boxes.filter((box) => box.id !== id);
+      this.animationState++;
+    }, 300); // Match the collapseOut duration
   }
 
   /**
    * Restore all initial boxes
    */
   restoreAllBoxes(): void {
+    this.saveElementPositions();
     // Using the spread operator creates a new array to trigger animations
     this.boxes = [...this.initialBoxes];
+    this.animationState++;
   }
 
   /**
    * Sort boxes by title in the specified order
    */
   sortBoxes(): void {
+    // Save current positions before sorting
+    this.saveElementPositions();
+
     // Make a new array to trigger animations
     let newBoxes: AnimationBox[];
 
@@ -195,11 +155,46 @@ export class ReusableBoxComponent {
       newBoxes = [...this.boxes].sort((a, b) => b.title.localeCompare(a.title));
     } else {
       this.currentSortOrder = 'default';
-      newBoxes = [...this.initialBoxes];
+      // Instead of using initialBoxes (which would restore removed items),
+      // maintain the current set of boxes but sort them by ID to restore original order
+      newBoxes = [...this.boxes].sort((a, b) => a.id - b.id);
     }
 
-    // Assign the sorted array to trigger list animations
+    // Assign the sorted array and trigger animations
     this.boxes = newBoxes;
+    this.animationState++;
+
+    // Apply CSS animations manually after DOM update
+    setTimeout(() => {
+      this.boxElements.forEach((element, index) => {
+        const box = this.boxes[index];
+        const oldPosition = this.boxPositions.get(box.id);
+        const newPosition = element.nativeElement.getBoundingClientRect();
+
+        if (oldPosition) {
+          // Calculate the distance the element needs to move
+          const deltaY = oldPosition.top - newPosition.top;
+
+          if (deltaY) {
+            // Apply animation using the Web Animations API
+            element.nativeElement.animate(
+              [
+                { transform: `translateY(${deltaY}px)` },
+                { transform: 'translateY(0)' },
+              ],
+              {
+                duration: 400,
+                easing: 'ease',
+                fill: 'forwards',
+              }
+            );
+          }
+        }
+      });
+
+      // Update positions after animation
+      setTimeout(() => this.saveElementPositions(), 400);
+    }, 0);
   }
 
   /**

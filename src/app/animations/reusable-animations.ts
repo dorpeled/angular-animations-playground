@@ -2,6 +2,8 @@ import {
   animate,
   animation,
   keyframes,
+  query,
+  stagger,
   style,
   transition,
   trigger,
@@ -137,7 +139,131 @@ export const slideInUp = animation(
   }
 );
 
-// CHALLENGE: Create your own custom animation with keyframes
+// New expandIn animation that includes height
+export const expandIn = animation(
+  [
+    style({
+      opacity: 0,
+      height: 0,
+      marginBottom: 0,
+      padding: 0,
+      overflow: 'hidden',
+    }),
+    animate(
+      '{{ duration }} {{ easing }}',
+      style({
+        opacity: 1,
+        height: '*',
+        marginBottom: '*',
+        padding: '*',
+        overflow: 'hidden',
+      })
+    ),
+  ],
+  {
+    params: {
+      duration: '400ms',
+      easing: 'ease-out',
+    },
+  }
+);
+
+// New collapseOut animation that includes height and margin
+export const collapseOut = animation(
+  [
+    style({
+      opacity: '*',
+      height: '*',
+      marginBottom: '*',
+      padding: '*',
+      overflow: 'hidden',
+    }),
+    animate(
+      '{{ duration }} {{ easing }}',
+      style({
+        opacity: 0,
+        height: 0,
+        marginBottom: 0,
+        padding: 0,
+        overflow: 'hidden',
+      })
+    ),
+  ],
+  {
+    params: {
+      duration: '300ms',
+      easing: 'ease-out',
+    },
+  }
+);
+
+// Slow fade in with cubic bezier
+export const slowFadeIn = animation(
+  [
+    style({ opacity: 0 }),
+    animate('{{ duration }} {{ easing }}', style({ opacity: 1 })),
+  ],
+  {
+    params: {
+      duration: '2000ms',
+      easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
+    },
+  }
+);
+
+// Medium fade in with ease-in
+export const mediumFadeIn = animation(
+  [
+    style({ opacity: 0 }),
+    animate('{{ duration }} {{ easing }}', style({ opacity: 1 })),
+  ],
+  {
+    params: {
+      duration: '500ms',
+      easing: 'ease-in',
+    },
+  }
+);
+
+// Smooth fade in with ease-out
+export const smoothFadeIn = animation(
+  [
+    style({ opacity: 0 }),
+    animate('{{ duration }} {{ easing }}', style({ opacity: 1 })),
+  ],
+  {
+    params: {
+      duration: '800ms',
+      easing: 'ease-out',
+    },
+  }
+);
+
+// List animation with stagger
+export const listStaggerAnimation = animation(
+  [
+    query(
+      ':enter',
+      [
+        style({ opacity: 0, height: 0 }),
+        stagger('{{ staggerDuration }}', [
+          animate(
+            '{{ itemDuration }} {{ easing }}',
+            style({ opacity: 1, height: '*' })
+          ),
+        ]),
+      ],
+      { optional: true }
+    ),
+  ],
+  {
+    params: {
+      staggerDuration: '100ms',
+      itemDuration: '400ms',
+      easing: 'ease',
+    },
+  }
+);
 
 // Helper trigger for creating quick animations
 export const appAnimations = {
@@ -153,5 +279,36 @@ export const appAnimations = {
   scaleInOut: trigger('scaleInOut', [
     transition(':enter', useAnimation(scaleIn)),
     transition(':leave', useAnimation(fadeOut)),
+  ]),
+  // New animation that properly handles expansion and collapse
+  expandCollapse: trigger('expandCollapse', [
+    transition(':enter', useAnimation(expandIn)),
+    transition(':leave', useAnimation(collapseOut)),
+  ]),
+  // Comprehensive box animation with multiple states
+  boxAnimations: trigger('boxAnimations', [
+    // Default enter animation
+    transition(':enter, * => enter', useAnimation(expandIn)),
+    // Standard leave animation
+    transition(':leave, * => leave', useAnimation(collapseOut)),
+    // Custom timing animations based on state
+    transition('* => slow', useAnimation(slowFadeIn)),
+    transition('* => medium', useAnimation(mediumFadeIn)),
+    transition('* => smooth', useAnimation(smoothFadeIn)),
+  ]),
+  // Staggered list animation
+  listAnimation: trigger('listAnimation', [
+    transition('* => *', [
+      query(
+        ':enter',
+        [
+          style({ opacity: 0, height: 0 }),
+          stagger(100, [
+            animate('400ms ease', style({ opacity: 1, height: '*' })),
+          ]),
+        ],
+        { optional: true }
+      ),
+    ]),
   ]),
 };
