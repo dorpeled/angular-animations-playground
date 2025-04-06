@@ -10,8 +10,12 @@
   </div>
 
   <div class="cards-container">
-    <!-- CHALLENGE: Add [@fadeAnimation] binding here -->
-    <div class="card" *ngFor="let card of cards">
+    <div
+      class="card"
+      *ngFor="let card of cards"
+      [@fadeAnimation]
+      [@.disabled]="disableAnimations"
+    >
       <div class="card-header">
         <h3>{{ card.title }}</h3>
         <button class="remove-btn" (click)="removeCard(card.id)">×</button>
@@ -24,12 +28,17 @@
 
   <div class="code-explanation">
     <h3>How it works:</h3>
-    <p>The fadeAnimation trigger uses:</p>
+    <p>The fadeAnimation trigger with disabled initial animations:</p>
     <ul>
       <li>:enter transition with opacity 0 to 1</li>
       <li>:leave transition with opacity 1 to 0</li>
       <li>500ms duration with ease-in/ease-out timing functions</li>
+      <li>Animation disabling feature to skip initial animations</li>
+      <li>Animations enabled after initial rendering using afterNextRender</li>
     </ul>
-    <p>The animation is applied to any element with the animation trigger.</p>
+    <p>
+      This technique prevents animations on page load, but allows them when
+      adding/removing cards later.
+    </p>
   </div>
 </div>

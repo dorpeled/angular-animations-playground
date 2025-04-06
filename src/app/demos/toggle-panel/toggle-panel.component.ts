@@ -1,3 +1,10 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
@@ -7,8 +14,34 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './toggle-panel.component.html',
   styleUrl: './toggle-panel.component.scss',
-  // CHALLENGE: Add expandCollapse animation trigger with collapsed and expanded states
-  // animations: []
+  // DEMO: Animation with state changes - expandCollapse
+  animations: [
+    trigger('expandCollapse', [
+      state(
+        'collapsed',
+        style({
+          height: '0',
+          overflow: 'hidden',
+          opacity: '0',
+          padding: '0',
+          transform: 'translateX(15px)',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+          overflow: 'hidden',
+          opacity: '1',
+          padding: '*',
+          transform: 'translateX(0)',
+        })
+      ),
+      transition('collapsed <=> expanded', [
+        animate('400ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
+      ]),
+    ]),
+  ],
 })
 export class TogglePanelComponent {
   panels = [

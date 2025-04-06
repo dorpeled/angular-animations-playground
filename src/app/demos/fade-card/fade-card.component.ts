@@ -1,5 +1,12 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 
 @Component({
   selector: 'app-fade-card',
@@ -7,10 +14,24 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './fade-card.component.html',
   styleUrl: './fade-card.component.scss',
-  // CHALLENGE: Add fadeAnimation trigger with :enter and :leave transitions
-  // animations: []
+  animations: [
+    trigger('fadeAnimation', [
+      // Enter transition
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 })),
+      ]),
+      // Exit transition
+      transition(':leave', [animate('500ms ease-out', style({ opacity: 0 }))]),
+    ]),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FadeCardComponent {
+  // Used to disable initial animations
+  disableAnimations = true;
+  cdr = inject(ChangeDetectorRef);
+
   cards = [
     {
       id: 1,
@@ -24,7 +45,14 @@ export class FadeCardComponent {
     },
   ];
 
-  // CHALLENGE: Try implementing a different timing function
+  constructor() {
+    // Properly use afterNextRender within the injection context
+    afterNextRender(() => {
+      // Now animations will be enabled for any new cards
+      this.disableAnimations = false;
+      this.cdr.markForCheck();
+    });
+  }
 
   removeCard(id: number): void {
     this.cards = this.cards.filter((card) => card.id !== id);

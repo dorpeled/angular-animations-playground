@@ -70,20 +70,8 @@
 
     .panel-content {
       background-color: white;
-
-      &.collapsed {
-        height: 0;
-        overflow: hidden;
-        opacity: 0;
-        padding: 0 15px;
-      }
-
-      &.expanded {
-        height: auto;
-        overflow: hidden;
-        opacity: 1;
-        padding: 15px;
-      }
+      padding: 15px; // look at the transform in the animation to understand this better
+      overflow: hidden;
 
       p {
         margin: 0;

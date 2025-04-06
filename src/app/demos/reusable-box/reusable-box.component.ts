@@ -1,5 +1,13 @@
+import { transition, trigger, useAnimation } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  bounceIn,
+  fadeIn,
+  fadeOut,
+  slideInLeft,
+  slideInRight,
+} from '../../animations/reusable-animations';
 
 @Component({
   selector: 'app-reusable-box',
@@ -7,9 +15,72 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './reusable-box.component.html',
   styleUrl: './reusable-box.component.scss',
-  // CHALLENGE: Add multiple animation triggers (boxAnimation, customTiming, slideAnimation, etc.)
-  // and import animations from reusable-animations.ts
-  // animations: []
+  // DEMO: Using reusable animations with parameters
+  animations: [
+    trigger('boxAnimation', [
+      transition(
+        ':enter',
+        useAnimation(bounceIn, {
+          params: {
+            duration: '800ms',
+            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+          },
+        })
+      ),
+      transition(
+        ':leave',
+        useAnimation(fadeOut, {
+          params: {
+            duration: '300ms',
+          },
+        })
+      ),
+    ]),
+
+    trigger('customTiming', [
+      transition(
+        ':enter',
+        useAnimation(fadeIn, {
+          params: {
+            duration: '2000ms',
+            easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
+          },
+        })
+      ),
+      transition(
+        ':leave',
+        useAnimation(fadeOut, {
+          params: {
+            duration: '300ms',
+          },
+        })
+      ),
+    ]),
+
+    trigger('slideAnimation', [
+      transition(':enter', useAnimation(slideInLeft)),
+      transition(
+        ':leave',
+        useAnimation(fadeOut, {
+          params: {
+            duration: '300ms',
+          },
+        })
+      ),
+    ]),
+
+    trigger('slideRightAnimation', [
+      transition(':enter', useAnimation(slideInRight)),
+      transition(
+        ':leave',
+        useAnimation(fadeOut, {
+          params: {
+            duration: '300ms',
+          },
+        })
+      ),
+    ]),
+  ],
 })
 export class ReusableBoxComponent {
   boxes = [
