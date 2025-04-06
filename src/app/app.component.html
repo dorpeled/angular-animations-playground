@@ -1,12 +1,18 @@
 <div class="animations-playground">
+  <!-- Page header -->
   <header>
     <h1>Angular Animations Playground</h1>
     <p>Hands-on examples for Angular animations</p>
   </header>
 
+  <!-- Main content layout -->
   <div class="main-content">
+    <!-- Navigation sidebar -->
     <app-nav></app-nav>
+
+    <!-- Content area with route animations -->
     <div class="content-container">
+      <!-- The animation container - critical for route transitions -->
       <div [@routeAnimations]="prepareRoute(outlet)" class="route-container">
         <router-outlet #outlet="outlet"></router-outlet>
       </div>

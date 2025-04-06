@@ -2,9 +2,9 @@
   <h2>Demos</h2>
   <ul>
     <li *ngFor="let route of routes">
-      <a [routerLink]="[route.path]" routerLinkActive="active">{{
-        route.label
-      }}</a>
+      <a [routerLink]="[route.path]" routerLinkActive="active">
+        {{ route.label }}
+      </a>
     </li>
   </ul>
 </nav>

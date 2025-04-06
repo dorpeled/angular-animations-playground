@@ -8,6 +8,13 @@ import {
   inject,
 } from '@angular/core';
 
+// Card data interface
+interface Card {
+  id: number;
+  title: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-fade-card',
   standalone: true,
@@ -16,23 +23,55 @@ import {
   styleUrl: './fade-card.component.scss',
   animations: [
     trigger('fadeAnimation', [
-      // Enter transition
+      // Enter transition - fades in and expands
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('500ms ease-in', style({ opacity: 1 })),
+        style({
+          opacity: 0,
+          height: 0,
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
+        }),
+        animate(
+          '500ms ease-in',
+          style({
+            opacity: 1,
+            height: '*', // Auto height
+            margin: '*',
+            padding: '*',
+          })
+        ),
       ]),
-      // Exit transition
-      transition(':leave', [animate('500ms ease-out', style({ opacity: 0 }))]),
+      // Exit transition - fades out and collapses
+      transition(':leave', [
+        style({
+          opacity: 1,
+          height: '*',
+          overflow: 'hidden',
+        }),
+        animate(
+          '500ms ease-out',
+          style({
+            opacity: 0,
+            height: 0,
+            margin: 0,
+            padding: 0,
+          })
+        ),
+      ]),
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FadeCardComponent {
-  // Used to disable initial animations
+  // Flag to disable animations on initial render
   disableAnimations = true;
+
+  // Inject the ChangeDetectorRef
   cdr = inject(ChangeDetectorRef);
 
-  cards = [
+  // Initial set of cards
+  cards: Card[] = [
     {
       id: 1,
       title: 'Card One',
@@ -46,18 +85,23 @@ export class FadeCardComponent {
   ];
 
   constructor() {
-    // Properly use afterNextRender within the injection context
+    // Enable animations after initial render to prevent animation on load
     afterNextRender(() => {
-      // Now animations will be enabled for any new cards
       this.disableAnimations = false;
       this.cdr.markForCheck();
     });
   }
 
+  /**
+   * Removes a card from the list by ID
+   */
   removeCard(id: number): void {
     this.cards = this.cards.filter((card) => card.id !== id);
   }
 
+  /**
+   * Adds a new card to the list with an auto-incremented ID
+   */
   addNewCard(): void {
     const newId =
       this.cards.length > 0 ? Math.max(...this.cards.map((c) => c.id)) + 1 : 1;

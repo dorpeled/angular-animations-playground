@@ -16,34 +16,42 @@ import { NavComponent } from './shared/nav/nav.component';
   imports: [RouterOutlet, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  // Simple route animation
   animations: [
     trigger('routeAnimations', [
       transition('* <=> *', [
-        // Initial state of new page
+        // Set initial states for entering and leaving pages
         query(
           ':enter',
-          [style({ opacity: 0, position: 'absolute', width: '100%' })],
-          {
-            optional: true,
-          }
+          [
+            style({
+              opacity: 0,
+              position: 'absolute',
+              width: '100%',
+            }),
+          ],
+          { optional: true }
         ),
 
         query(
           ':leave',
-          [style({ opacity: 1, position: 'absolute', width: '100%' })],
-          {
-            optional: true,
-          }
+          [
+            style({
+              opacity: 1,
+              position: 'absolute',
+              width: '100%',
+            }),
+          ],
+          { optional: true }
         ),
 
+        // Run animations in parallel
         group([
-          // Animation for the page being removed
+          // Fade out the leaving page
           query(':leave', [animate('300ms ease-out', style({ opacity: 0 }))], {
             optional: true,
           }),
 
-          // Animation for the new page
+          // Fade in the entering page
           query(':enter', [animate('500ms ease-in', style({ opacity: 1 }))], {
             optional: true,
           }),
@@ -55,10 +63,7 @@ import { NavComponent } from './shared/nav/nav.component';
 export class AppComponent {
   title = 'Angular Animations Playground';
 
-  // Method to prepare route for animation
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData
-      ? outlet.activatedRouteData['animation']
-      : '';
+    return outlet?.activatedRouteData?.['animation'] || '';
   }
 }

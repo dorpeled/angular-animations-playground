@@ -2,8 +2,8 @@
   <h2>Reusable Animations Demo</h2>
   <p class="description">
     This demo shows how to create and use reusable animations across different
-    components. Each box demonstrates a different animation imported from
-    reusable-animations.ts.
+    components. Each box demonstrates a different fade animation with varying
+    timing parameters.
   </p>
 
   <div class="controls">
@@ -15,10 +15,12 @@
   <div class="boxes-container">
     <div
       class="box"
-      *ngFor="let box of boxes"
+      *ngFor="let box of boxes; trackBy: trackById"
       [style.background-color]="box.color"
       [@boxAnimation]="box.animation === 'boxAnimation'"
       [@customTiming]="box.animation === 'customTiming'"
+      [@fadeAnimation3]="box.animation === 'fadeAnimation3'"
+      [@fadeAnimation4]="box.animation === 'fadeAnimation4'"
     >
       <div class="box-header">
         <h3>{{ box.title }}</h3>
@@ -37,14 +39,21 @@
       that can accept parameters:
     </p>
     <ul>
-      <li>Create reusable animations using animation() function</li>
-      <li>Use useAnimation() to apply these animations in components</li>
-      <li>Override default animation parameters when applying</li>
-      <li>Define different timing functions, durations and effects</li>
+      <li>
+        Create reusable fadeIn/fadeOut animations using animation() function
+      </li>
+      <li>
+        Use useAnimation() to apply these animations with different parameters
+      </li>
+      <li>Override default durations (from 300ms to 2000ms)</li>
+      <li>
+        Apply different easing functions (ease-in, ease-out, cubic-bezier)
+      </li>
+      <li>Using trackBy to improve animation performance during restoration</li>
     </ul>
     <p>
       This approach lets you maintain animations in a central place for
-      consistency.
+      consistency while customizing them for each use case.
     </p>
   </div>
 </div>
