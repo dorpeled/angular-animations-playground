@@ -1,4 +1,12 @@
-import { transition, trigger, useAnimation } from '@angular/animations';
+import {
+  animate,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+  useAnimation,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { fadeIn, fadeOut } from '../../animations/reusable-animations';
@@ -20,6 +28,7 @@ interface AnimationBox {
   styleUrl: './reusable-box.component.scss',
   // DEMO: Using reusable animations with parameters
   animations: [
+    // Animation for individual boxes
     trigger('boxAnimation', [
       transition(':enter', useAnimation(fadeIn)),
       transition(
@@ -52,7 +61,7 @@ interface AnimationBox {
       ),
     ]),
 
-    // Fade animations with different timings for the slide boxes
+    // Fade animations with different timings for the remaining boxes
     trigger('fadeAnimation3', [
       transition(
         ':enter',
@@ -92,6 +101,21 @@ interface AnimationBox {
         })
       ),
     ]),
+
+    // Simple animation for entire container when items change
+    trigger('listAnimation', [
+      transition('* => *', [
+        // Fade in new elements with stagger
+        query(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            stagger(100, [animate('400ms ease', style({ opacity: 1 }))]),
+          ],
+          { optional: true }
+        ),
+      ]),
+    ]),
   ],
 })
 export class ReusableBoxComponent {
@@ -130,6 +154,9 @@ export class ReusableBoxComponent {
   // Current boxes
   boxes: AnimationBox[] = [...this.initialBoxes];
 
+  // Current sort order (default: no sorting)
+  currentSortOrder: 'default' | 'ascending' | 'descending' = 'default';
+
   /**
    * Track boxes by their ID for better animation performance
    */
@@ -150,5 +177,42 @@ export class ReusableBoxComponent {
   restoreAllBoxes(): void {
     // Using the spread operator creates a new array to trigger animations
     this.boxes = [...this.initialBoxes];
+  }
+
+  /**
+   * Sort boxes by title in the specified order
+   */
+  sortBoxes(): void {
+    // Make a new array to trigger animations
+    let newBoxes: AnimationBox[];
+
+    // Cycle through sort orders
+    if (this.currentSortOrder === 'default') {
+      this.currentSortOrder = 'ascending';
+      newBoxes = [...this.boxes].sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.currentSortOrder === 'ascending') {
+      this.currentSortOrder = 'descending';
+      newBoxes = [...this.boxes].sort((a, b) => b.title.localeCompare(a.title));
+    } else {
+      this.currentSortOrder = 'default';
+      newBoxes = [...this.initialBoxes];
+    }
+
+    // Assign the sorted array to trigger list animations
+    this.boxes = newBoxes;
+  }
+
+  /**
+   * Get the current sort order text for the button
+   */
+  getSortButtonText(): string {
+    switch (this.currentSortOrder) {
+      case 'ascending':
+        return 'Sort: Z to A';
+      case 'descending':
+        return 'Sort: Default';
+      default:
+        return 'Sort: A to Z';
+    }
   }
 }

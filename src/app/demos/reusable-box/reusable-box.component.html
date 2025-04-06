@@ -10,9 +10,12 @@
     <button (click)="restoreAllBoxes()" *ngIf="boxes.length < 4">
       Restore All Boxes
     </button>
+    <button (click)="sortBoxes()" class="sort-button">
+      {{ getSortButtonText() }}
+    </button>
   </div>
 
-  <div class="boxes-container">
+  <div class="boxes-container" [@listAnimation]="boxes.length">
     <div
       class="box"
       *ngFor="let box of boxes; trackBy: trackById"
@@ -34,26 +37,21 @@
 
   <div class="code-explanation">
     <h3>How it works:</h3>
-    <p>
-      In reusable-animations.ts, we define animations with animation() function
-      that can accept parameters:
-    </p>
+    <p>This demo shows how to create and use reusable animations:</p>
     <ul>
       <li>
-        Create reusable fadeIn/fadeOut animations using animation() function
+        Each box has its own fade animation with different timing parameters
       </li>
+      <li>The container uses a stagger animation when new items are added</li>
       <li>
-        Use useAnimation() to apply these animations with different parameters
+        Sorting creates a new array, which triggers the container animation
       </li>
-      <li>Override default durations (from 300ms to 2000ms)</li>
-      <li>
-        Apply different easing functions (ease-in, ease-out, cubic-bezier)
-      </li>
-      <li>Using trackBy to improve animation performance during restoration</li>
+      <li>The trackBy function ensures elements are properly identified</li>
+      <li>Angular animations handle all transitions without CSS</li>
     </ul>
     <p>
-      This approach lets you maintain animations in a central place for
-      consistency while customizing them for each use case.
+      Try sorting the boxes in different orders or removing/restoring them to
+      see the different animations in action.
     </p>
   </div>
 </div>
