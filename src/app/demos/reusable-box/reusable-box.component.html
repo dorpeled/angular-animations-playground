@@ -7,7 +7,7 @@
   </p>
 
   <div class="controls">
-    <button (click)="restoreAllBoxes()">Restore All Boxes</button>
+    <button (click)="restoreAllBoxes()">Restore Missing Boxes</button>
     <button (click)="sortBoxes()">{{ getSortButtonText() }}</button>
   </div>
 
@@ -15,6 +15,7 @@
     <div
       *ngFor="let box of boxes; trackBy: trackById; let i = index"
       class="box"
+      [attr.data-entering]="box.entering"
       [style.background-color]="box.color"
       [@boxAnimations]="getAnimationState(box)"
       #boxElement
@@ -26,21 +27,18 @@
   </div>
 
   <div class="code-explanation">
-    <h3>How it works:</h3>
-    <p>This demo shows how to create and use reusable animations:</p>
+    <h3>Animation Challenge:</h3>
+    <p>Complete the following tasks to see animations in action:</p>
     <ul>
-      <li>A single animation trigger supports multiple animation states</li>
-      <li>Each box demonstrates a different animation timing</li>
-      <li>
-        When removing items, they collapse with height and margin animations
-      </li>
-      <li>Sorting uses position tracking to animate items to new positions</li>
-      <li>The container uses a stagger animation for new items</li>
-      <li>Reusable animations are imported from a shared file</li>
+      <li>Implement the animations in reusable-animations.ts</li>
+      <li>Add animation triggers to this component's HTML template</li>
+      <li>Fix the animation state handling in the component</li>
+      <li>Implement smooth enter/leave animations for boxes</li>
+      <li>Create position animations for when boxes are sorted</li>
     </ul>
     <p>
-      Try sorting the boxes in different orders or removing/restoring them to
-      see the different animations in action.
+      Once completed, you'll have a fully animated component that smoothly
+      animates boxes as they enter, leave, and change position.
     </p>
   </div>
 </div>

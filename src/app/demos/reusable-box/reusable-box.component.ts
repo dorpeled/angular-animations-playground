@@ -6,7 +6,20 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { appAnimations } from '../../animations/reusable-animations';
+
+/**
+ * ANIMATION CHALLENGE: REUSABLE BOX COMPONENT
+ *
+ * This component demonstrates:
+ * 1. Using reusable animations with different parameters
+ * 2. Animating items as they enter, leave, and move
+ * 3. Handling complex scenarios like sorting
+ *
+ * Your challenge:
+ * - Implement the missing animations in the reusable-animations.ts file
+ * - Connect those animations to this component
+ * - Enhance the animations with your own creative touches
+ */
 
 // Box interface for proper typing
 interface AnimationBox {
@@ -16,6 +29,7 @@ interface AnimationBox {
   description: string;
   animation: string;
   removing?: boolean;
+  entering?: boolean;
 }
 
 @Component({
@@ -24,8 +38,13 @@ interface AnimationBox {
   imports: [CommonModule],
   templateUrl: './reusable-box.component.html',
   styleUrl: './reusable-box.component.scss',
-  // Use predefined animations from the shared file
-  animations: [appAnimations.boxAnimations, appAnimations.listAnimation],
+
+  // CHALLENGE: Import and use the animations you've created
+  // HINT: You'll need both boxAnimations and listAnimation
+  animations: [
+    // TODO: Add boxAnimations from appAnimations
+    // TODO: Add listAnimation from appAnimations
+  ],
 })
 export class ReusableBoxComponent implements AfterViewInit {
   @ViewChildren('boxElement') boxElements!: QueryList<ElementRef>;
@@ -34,7 +53,7 @@ export class ReusableBoxComponent implements AfterViewInit {
   boxPositions = new Map<number, DOMRect>();
 
   // Initial box data
-  private initialBoxes: AnimationBox[] = [
+  initialBoxes: AnimationBox[] = [
     {
       id: 1,
       color: '#4CAF50',
@@ -104,40 +123,45 @@ export class ReusableBoxComponent implements AfterViewInit {
   }
 
   /**
-   * Get animation state for a specific box
+   * CHALLENGE: Implement this method to return the appropriate animation state
+   * HINT: Consider the box.animation value, and handle removing/entering states
    */
   getAnimationState(box: AnimationBox): string {
-    return box.removing ? 'leave' : box.animation;
+    // TODO: Return 'leave' when box.removing is true
+    // TODO: Return 'enter' when box.entering is true
+    // TODO: Otherwise return box.animation
+    return 'default'; // Replace this with your implementation
   }
 
   /**
-   * Remove a box by ID
+   * Remove a box by ID with animation
+   * CHALLENGE: Make sure the box animates out before being removed from the DOM
    */
   removeBox(id: number): void {
-    // Mark the box as removing to trigger animation
-    this.boxes = this.boxes.map((box) =>
-      box.id === id ? { ...box, removing: true } : box
-    );
+    // TODO: Mark the box as removing to trigger animation
+    // TODO: Use setTimeout to actually remove the box after animation completes
 
-    // Actual removal happens after animation completes
-    setTimeout(() => {
-      this.boxes = this.boxes.filter((box) => box.id !== id);
-      this.animationState++;
-    }, 300); // Match the collapseOut duration
+    // For now, just remove it immediately (replace this)
+    this.boxes = this.boxes.filter((box) => box.id !== id);
   }
 
   /**
    * Restore all initial boxes
+   * CHALLENGE: Make restored boxes animate in properly without abrupt spacing
    */
   restoreAllBoxes(): void {
-    this.saveElementPositions();
-    // Using the spread operator creates a new array to trigger animations
+    // TODO: Keep existing boxes, only add missing ones
+    // TODO: Mark new boxes as 'entering' to trigger enter animation
+    // TODO: Prevent abrupt spacing issues during animation
+
+    // For now, just reset to initial state (replace this)
     this.boxes = [...this.initialBoxes];
     this.animationState++;
   }
 
   /**
-   * Sort boxes by title in the specified order
+   * Sort boxes by title
+   * CHALLENGE: Animate boxes to their new positions when sorting
    */
   sortBoxes(): void {
     // Save current positions before sorting
@@ -155,8 +179,7 @@ export class ReusableBoxComponent implements AfterViewInit {
       newBoxes = [...this.boxes].sort((a, b) => b.title.localeCompare(a.title));
     } else {
       this.currentSortOrder = 'default';
-      // Instead of using initialBoxes (which would restore removed items),
-      // maintain the current set of boxes but sort them by ID to restore original order
+      // Sort by ID to restore original order without re-adding removed items
       newBoxes = [...this.boxes].sort((a, b) => a.id - b.id);
     }
 
@@ -164,37 +187,11 @@ export class ReusableBoxComponent implements AfterViewInit {
     this.boxes = newBoxes;
     this.animationState++;
 
-    // Apply CSS animations manually after DOM update
-    setTimeout(() => {
-      this.boxElements.forEach((element, index) => {
-        const box = this.boxes[index];
-        const oldPosition = this.boxPositions.get(box.id);
-        const newPosition = element.nativeElement.getBoundingClientRect();
+    // CHALLENGE: Implement position animation using the Web Animations API
+    // HINT: Calculate the difference between old and new positions
 
-        if (oldPosition) {
-          // Calculate the distance the element needs to move
-          const deltaY = oldPosition.top - newPosition.top;
-
-          if (deltaY) {
-            // Apply animation using the Web Animations API
-            element.nativeElement.animate(
-              [
-                { transform: `translateY(${deltaY}px)` },
-                { transform: 'translateY(0)' },
-              ],
-              {
-                duration: 400,
-                easing: 'ease',
-                fill: 'forwards',
-              }
-            );
-          }
-        }
-      });
-
-      // Update positions after animation
-      setTimeout(() => this.saveElementPositions(), 400);
-    }, 0);
+    // TODO: Loop through boxElements and apply animations with element.animate()
+    // TODO: Use the position data stored in boxPositions
   }
 
   /**
