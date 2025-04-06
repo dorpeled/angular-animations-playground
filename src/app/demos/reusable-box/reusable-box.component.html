@@ -13,16 +13,11 @@
   </div>
 
   <div class="boxes-container">
+    <!-- CHALLENGE: Add animation bindings based on box.animation value -->
     <div
       class="box"
       *ngFor="let box of boxes"
       [style.background-color]="box.color"
-      [@boxAnimation]="box.animation === 'boxAnimation' ? true : null"
-      [@customTiming]="box.animation === 'customTiming' ? true : null"
-      [@slideAnimation]="box.animation === 'slideAnimation' ? true : null"
-      [@slideRightAnimation]="
-        box.animation === 'slideRightAnimation' ? true : null
-      "
     >
       <div class="box-header">
         <h3>{{ box.title }}</h3>

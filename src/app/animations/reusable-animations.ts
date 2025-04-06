@@ -1,21 +1,11 @@
-import {
-  animate,
-  animation,
-  keyframes,
-  style,
-  transition,
-  trigger,
-  useAnimation,
-} from '@angular/animations';
+import { animation, trigger } from '@angular/animations';
 
-// DEMO: Creating reusable animations with animation() and useAnimation()
+// CHALLENGE: Creating reusable animations with animation() and useAnimation()
 
 // Fade In animation
 export const fadeIn = animation(
-  [
-    style({ opacity: 0 }),
-    animate('{{ duration }} {{ easing }}', style({ opacity: 1 })),
-  ],
+  // CHALLENGE: Implement fadeIn animation
+  [],
   {
     params: {
       duration: '400ms',
@@ -26,10 +16,8 @@ export const fadeIn = animation(
 
 // Fade Out animation
 export const fadeOut = animation(
-  [
-    style({ opacity: '*' }),
-    animate('{{ duration }} {{ easing }}', style({ opacity: 0 })),
-  ],
+  // CHALLENGE: Implement fadeOut animation
+  [],
   {
     params: {
       duration: '400ms',
@@ -40,13 +28,8 @@ export const fadeOut = animation(
 
 // Scale In animation
 export const scaleIn = animation(
-  [
-    style({ opacity: 0, transform: 'scale(0.5)' }),
-    animate(
-      '{{ duration }} {{ easing }}',
-      style({ opacity: 1, transform: 'scale(1)' })
-    ),
-  ],
+  // CHALLENGE: Implement scaleIn animation
+  [],
   {
     params: {
       duration: '400ms',
@@ -57,27 +40,8 @@ export const scaleIn = animation(
 
 // Bounce In animation with keyframes
 export const bounceIn = animation(
-  [
-    animate(
-      '{{ duration }} {{ easing }}',
-      keyframes([
-        style({
-          opacity: 0,
-          transform: 'scale(0.5)',
-          offset: 0,
-        }),
-        style({
-          opacity: 1,
-          transform: 'scale(1.1)',
-          offset: 0.7,
-        }),
-        style({
-          transform: 'scale(1)',
-          offset: 1,
-        }),
-      ])
-    ),
-  ],
+  // CHALLENGE: Implement bounceIn animation with keyframes
+  [],
   {
     params: {
       duration: '600ms',
@@ -88,13 +52,8 @@ export const bounceIn = animation(
 
 // Slide In Left animation
 export const slideInLeft = animation(
-  [
-    style({ opacity: 0, transform: 'translateX(-100%)' }),
-    animate(
-      '{{ duration }} {{ easing }}',
-      style({ opacity: 1, transform: 'translateX(0)' })
-    ),
-  ],
+  // CHALLENGE: Implement slideInLeft animation
+  [],
   {
     params: {
       duration: '500ms',
@@ -105,13 +64,8 @@ export const slideInLeft = animation(
 
 // Slide In Right animation
 export const slideInRight = animation(
-  [
-    style({ opacity: 0, transform: 'translateX(100%)' }),
-    animate(
-      '{{ duration }} {{ easing }}',
-      style({ opacity: 1, transform: 'translateX(0)' })
-    ),
-  ],
+  // CHALLENGE: Implement slideInRight animation
+  [],
   {
     params: {
       duration: '500ms',
@@ -122,13 +76,8 @@ export const slideInRight = animation(
 
 // Slide In Up animation
 export const slideInUp = animation(
-  [
-    style({ opacity: 0, transform: 'translateY(100%)' }),
-    animate(
-      '{{ duration }} {{ easing }}',
-      style({ opacity: 1, transform: 'translateY(0)' })
-    ),
-  ],
+  // CHALLENGE: Implement slideInUp animation
+  [],
   {
     params: {
       duration: '500ms',
@@ -141,18 +90,8 @@ export const slideInUp = animation(
 
 // Helper trigger for creating quick animations
 export const appAnimations = {
-  fadeInOut: trigger('fadeInOut', [
-    transition(':enter', useAnimation(fadeIn)),
-    transition(':leave', useAnimation(fadeOut)),
-  ]),
-
-  bounceInOut: trigger('bounceInOut', [
-    transition(':enter', useAnimation(bounceIn)),
-    transition(':leave', useAnimation(fadeOut)),
-  ]),
-
-  scaleInOut: trigger('scaleInOut', [
-    transition(':enter', useAnimation(scaleIn)),
-    transition(':leave', useAnimation(fadeOut)),
-  ]),
+  // CHALLENGE: Implement the following triggers using the reusable animations
+  fadeInOut: trigger('fadeInOut', []),
+  bounceInOut: trigger('bounceInOut', []),
+  scaleInOut: trigger('scaleInOut', []),
 };

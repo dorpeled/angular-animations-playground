@@ -18,7 +18,7 @@
           {{ panel.state === "collapsed" ? "+" : "−" }}
         </span>
       </div>
-      <div class="panel-content" [@expandCollapse]="panel.state">
+      <div class="panel-content" [class]="panel.state">
         <p>{{ panel.content }}</p>
       </div>
     </div>

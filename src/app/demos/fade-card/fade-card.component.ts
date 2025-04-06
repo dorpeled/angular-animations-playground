@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
@@ -8,18 +7,8 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   templateUrl: './fade-card.component.html',
   styleUrl: './fade-card.component.scss',
-  animations: [
-    // DEMO: Basic fade in/out animation with Angular animations
-    trigger('fadeAnimation', [
-      // :enter is alias for 'void => *'
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('500ms ease-in', style({ opacity: 1 })),
-      ]),
-      // :leave is alias for '* => void'
-      transition(':leave', [animate('500ms ease-out', style({ opacity: 0 }))]),
-    ]),
-  ],
+  // CHALLENGE: Add fadeAnimation trigger with :enter and :leave transitions
+  // animations: []
 })
 export class FadeCardComponent {
   cards = [

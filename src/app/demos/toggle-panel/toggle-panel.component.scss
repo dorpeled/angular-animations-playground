@@ -71,6 +71,20 @@
     .panel-content {
       background-color: white;
 
+      &.collapsed {
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+        padding: 0 15px;
+      }
+
+      &.expanded {
+        height: auto;
+        overflow: hidden;
+        opacity: 1;
+        padding: 15px;
+      }
+
       p {
         margin: 0;
         color: #666;

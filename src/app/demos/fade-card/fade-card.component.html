@@ -10,7 +10,8 @@
   </div>
 
   <div class="cards-container">
-    <div class="card" *ngFor="let card of cards" [@fadeAnimation]>
+    <!-- CHALLENGE: Add [@fadeAnimation] binding here -->
+    <div class="card" *ngFor="let card of cards">
       <div class="card-header">
         <h3>{{ card.title }}</h3>
         <button class="remove-btn" (click)="removeCard(card.id)">×</button>
