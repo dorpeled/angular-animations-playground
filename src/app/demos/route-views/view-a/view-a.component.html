@@ -1,0 +1,20 @@
+<div class="route-view view-a">
+  <h2>Route Animation - View A</h2>
+  <p class="description">
+    This view demonstrates route-based animations when navigating between
+    routes. Click the button below to navigate to View B with an animation.
+  </p>
+
+  <div class="content-block">
+    <h3>Route Animation Features:</h3>
+    <ul>
+      <li *ngFor="let feature of features">{{ feature }}</li>
+    </ul>
+  </div>
+
+  <div class="navigation-controls">
+    <a [routerLink]="['/route-views/view-b']" class="route-link">
+      Go to View B →
+    </a>
+  </div>
+</div>

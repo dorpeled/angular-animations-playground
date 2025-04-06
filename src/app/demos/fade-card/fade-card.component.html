@@ -1,0 +1,34 @@
+<div class="fade-card-demo">
+  <h2>Fade Animation Demo</h2>
+  <p class="description">
+    This demo shows how to use :enter and :leave transitions for elements being
+    added/removed from the DOM.
+  </p>
+
+  <div class="controls">
+    <button (click)="addNewCard()">Add New Card</button>
+  </div>
+
+  <div class="cards-container">
+    <div class="card" *ngFor="let card of cards" [@fadeAnimation]>
+      <div class="card-header">
+        <h3>{{ card.title }}</h3>
+        <button class="remove-btn" (click)="removeCard(card.id)">×</button>
+      </div>
+      <div class="card-body">
+        <p>{{ card.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-explanation">
+    <h3>How it works:</h3>
+    <p>The fadeAnimation trigger uses:</p>
+    <ul>
+      <li>:enter transition with opacity 0 to 1</li>
+      <li>:leave transition with opacity 1 to 0</li>
+      <li>500ms duration with ease-in/ease-out timing functions</li>
+    </ul>
+    <p>The animation is applied to any element with the animation trigger.</p>
+  </div>
+</div>

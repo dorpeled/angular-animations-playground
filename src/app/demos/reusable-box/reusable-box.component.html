@@ -1,0 +1,54 @@
+<div class="reusable-box-demo">
+  <h2>Reusable Animations Demo</h2>
+  <p class="description">
+    This demo shows how to create and use reusable animations across different
+    components. Each box demonstrates a different animation imported from
+    reusable-animations.ts.
+  </p>
+
+  <div class="controls">
+    <button (click)="restoreAllBoxes()" *ngIf="boxes.length < 4">
+      Restore All Boxes
+    </button>
+  </div>
+
+  <div class="boxes-container">
+    <div
+      class="box"
+      *ngFor="let box of boxes"
+      [style.background-color]="box.color"
+      [@boxAnimation]="box.animation === 'boxAnimation' ? true : null"
+      [@customTiming]="box.animation === 'customTiming' ? true : null"
+      [@slideAnimation]="box.animation === 'slideAnimation' ? true : null"
+      [@slideRightAnimation]="
+        box.animation === 'slideRightAnimation' ? true : null
+      "
+    >
+      <div class="box-header">
+        <h3>{{ box.title }}</h3>
+        <button class="remove-btn" (click)="removeBox(box.id)">×</button>
+      </div>
+      <div class="box-content">
+        <p>{{ box.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-explanation">
+    <h3>How it works:</h3>
+    <p>
+      In reusable-animations.ts, we define animations with animation() function
+      that can accept parameters:
+    </p>
+    <ul>
+      <li>Create reusable animations using animation() function</li>
+      <li>Use useAnimation() to apply these animations in components</li>
+      <li>Override default animation parameters when applying</li>
+      <li>Define different timing functions, durations and effects</li>
+    </ul>
+    <p>
+      This approach lets you maintain animations in a central place for
+      consistency.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="toggle-panel-demo">
+  <h2>Toggle Panel Animation Demo</h2>
+  <p class="description">
+    This demo demonstrates state-based animations with Angular's animation
+    system, transitioning smoothly between expanded and collapsed states.
+  </p>
+
+  <div class="controls">
+    <button (click)="toggleAll('expanded')">Expand All</button>
+    <button (click)="toggleAll('collapsed')">Collapse All</button>
+  </div>
+
+  <div class="panels-container">
+    <div class="panel" *ngFor="let panel of panels">
+      <div class="panel-header" (click)="togglePanel(panel)">
+        <h3>{{ panel.title }}</h3>
+        <span class="toggle-icon">
+          {{ panel.state === "collapsed" ? "+" : "−" }}
+        </span>
+      </div>
+      <div class="panel-content" [@expandCollapse]="panel.state">
+        <p>{{ panel.content }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-explanation">
+    <h3>How it works:</h3>
+    <p>The expandCollapse animation uses state transitions to:</p>
+    <ul>
+      <li>
+        Define visual properties for both 'collapsed' and 'expanded' states
+      </li>
+      <li>Animate height, opacity, and padding simultaneously</li>
+      <li>
+        Use bidirectional transitions between states with ease-in-out timing
+      </li>
+    </ul>
+  </div>
+</div>

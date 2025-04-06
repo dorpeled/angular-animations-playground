@@ -1,0 +1,105 @@
+.fade-card-demo {
+  h2 {
+    color: #3f51b5;
+    margin-bottom: 15px;
+  }
+
+  .description {
+    margin-bottom: 25px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  .controls {
+    margin-bottom: 20px;
+
+    button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #303f9f;
+      }
+    }
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 0;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: #f5f5f5;
+
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+      }
+
+      .remove-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #f44336;
+        }
+      }
+    }
+
+    .card-body {
+      padding: 15px;
+
+      p {
+        margin: 0;
+        color: #666;
+      }
+    }
+  }
+
+  .code-explanation {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 15px;
+
+      li {
+        margin-bottom: 8px;
+        color: #666;
+      }
+    }
+  }
+}

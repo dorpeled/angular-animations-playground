@@ -1,59 +1,83 @@
-# AngularAnimationsPlayground
+# Angular Animations Playground
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+A comprehensive demo and educational playground for teaching Angular animations techniques, designed for a 1-hour knowledge-sharing session.
 
-## Development server
+## Overview
 
-To start a local development server, run:
+This project showcases various Angular animation techniques, from basic to advanced:
 
-```bash
-ng serve
-```
+1. **Fade Card Demo** - Simple entry/exit animations
+2. **Toggle Panel** - State-based animations
+3. **Reusable Box** - Reusable and parameterized animations
+4. **Route Views** - Route transition animations
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Getting Started
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js v18.19.0 or higher
+- Angular CLI
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Installation
 
 ```bash
-ng generate --help
+# Clone the repository (if applicable)
+git clone <repository-url>
+
+# Navigate to project directory
+cd angular-animations-playground
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
 ```
 
-## Building
+The application will run at `http://localhost:4200/`
 
-To build the project run:
+## Demo Components
 
-```bash
-ng build
-```
+### 1. Fade Card
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Demonstrates `:enter` and `:leave` animations using opacity
+- Shows how to animate elements being added to or removed from the DOM
 
-## Running unit tests
+### 2. Toggle Panel
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Shows state-based animations with the `@expandCollapse` trigger
+- Transitions between `expanded` and `collapsed` states
+- Animates multiple properties simultaneously
 
-```bash
-ng test
-```
+### 3. Reusable Box
 
-## Running end-to-end tests
+- Demonstrates creating reusable animations with the `animation()` function
+- Shows how to use `useAnimation()` to reuse animations
+- Illustrates parameter customization for reused animations
 
-For end-to-end (e2e) testing, run:
+### 4. Route Views
 
-```bash
-ng e2e
-```
+- Demonstrates route transition animations
+- Shows navigation between different views with smooth transitions
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Key Concepts
 
-## Additional Resources
+- Triggers, states, and transitions
+- Entry and exit animations
+- Parameterized animations
+- Reusable animation libraries
+- Route-based animations
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Challenges for Participants
+
+Throughout the codebase, you'll find commented sections marked with `// CHALLENGE` indicating areas where participants can experiment and expand the animations.
+
+## Learning Resources
+
+- [Angular Animations Guide](https://angular.io/guide/animations)
+- [Angular Animations API](https://angular.io/api/animations)
+- [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API)
+
+## License
+
+This project is licensed under the MIT License.
