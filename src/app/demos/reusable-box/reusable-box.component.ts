@@ -1,3 +1,12 @@
+import {
+  animate,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+  useAnimation,
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -6,7 +15,11 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { appAnimations } from '../../animations/reusable-animations';
+import {
+  collapseOut,
+  expandIn,
+  fadeIn,
+} from '../../animations/reusable-animations';
 
 // Box interface for proper typing
 interface AnimationBox {
@@ -24,8 +37,76 @@ interface AnimationBox {
   imports: [CommonModule],
   templateUrl: './reusable-box.component.html',
   styleUrl: './reusable-box.component.scss',
-  // Use predefined animations from the shared file
-  animations: [appAnimations.boxAnimations, appAnimations.listAnimation],
+  // DEMO: Using reusable animations with parameters
+  animations: [
+    // Single animation trigger that handles all animation types
+    trigger('boxAnimation', [
+      // Default enter animation
+      transition(
+        ':enter, * => enter',
+        useAnimation(expandIn, {
+          params: {
+            duration: '400ms',
+            easing: 'ease-out',
+          },
+        })
+      ),
+      // Standard leave animation
+      transition(
+        ':leave, * => leave',
+        useAnimation(collapseOut, {
+          params: {
+            duration: '300ms',
+            easing: 'ease-out',
+          },
+        })
+      ),
+      // Custom timing animations based on state
+      transition(
+        '* => slow',
+        useAnimation(fadeIn, {
+          params: {
+            duration: '2000ms',
+            easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
+          },
+        })
+      ),
+      transition(
+        '* => medium',
+        useAnimation(fadeIn, {
+          params: {
+            duration: '500ms',
+            easing: 'ease-in',
+          },
+        })
+      ),
+      transition(
+        '* => smooth',
+        useAnimation(fadeIn, {
+          params: {
+            duration: '800ms',
+            easing: 'ease-out',
+          },
+        })
+      ),
+    ]),
+
+    // Animation for the container
+    trigger('listAnimation', [
+      transition('* => *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0, height: 0 }),
+            stagger(100, [
+              animate('400ms ease', style({ opacity: 1, height: '*' })),
+            ]),
+          ],
+          { optional: true }
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ReusableBoxComponent implements AfterViewInit {
   @ViewChildren('boxElement') boxElements!: QueryList<ElementRef>;

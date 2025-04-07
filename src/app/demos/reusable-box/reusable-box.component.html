@@ -16,7 +16,7 @@
       *ngFor="let box of boxes; trackBy: trackById; let i = index"
       class="box"
       [style.background-color]="box.color"
-      [@boxAnimations]="getAnimationState(box)"
+      [@boxAnimation]="getAnimationState(box)"
       #boxElement
     >
       <h3>{{ box.title }}</h3>
